@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<p><%= link_to 'list of breweries', breweries_path%></p>
+
 <h1>Listing Beers</h1>
 
 <table>
@@ -15,10 +17,9 @@
   <tbody>
     <% @beers.each do |beer| %>
       <tr>
-        <td><%= beer.name %></td>
+        <td><%= link_to "#{beer.name}", beer %></td>
         <td><%= beer.style %></td>
-        <td><%= beer.brewery_id %></td>
-        <td><%= link_to 'Show', beer %></td>
+        <td><%= link_to "#{beer.brewery.name}", beer.brewery %></td>
         <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
         <td><%= link_to 'Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
@@ -29,3 +30,5 @@
 <br>
 
 <%= link_to 'New Beer', new_beer_path %>
+
+
