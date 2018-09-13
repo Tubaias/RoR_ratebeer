@@ -1,3 +1,3 @@
 # RoR_ratebeer
 
-[Heroku]
+[Heroku](https://raetbear.herokuapp.com/beers)
