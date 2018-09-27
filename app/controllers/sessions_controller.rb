@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
     def new
     end
-  
+
     def create
       user = User.find_by username: params[:username]
       if user && user.authenticate(params[:password])
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         redirect_to signin_path, notice: "Username and/or password mismatch"
       end
     end
-  
+
     def destroy
       session[:user_id] = nil
       redirect_to :root

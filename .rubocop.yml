@@ -63,8 +63,11 @@ Naming/UncommunicativeMethodParamName:
     - cn
 
 Metrics/BlockLength:
-Enabled: false
+  Enabled: false
 
 Metrics/MethodLength:
   CountComments: false
   Max: 15
+
+Layout/IndentationWidth:
+  Enabled: false

@@ -9,9 +9,9 @@ class Brewery < ApplicationRecord
     has_many :ratings, through: :beers
 
     def year_cannot_be_in_the_future
-        if year > Time.now.year
-            errors.add(:year, "can't be in the future")
-        end
+        return if year <= Time.now.year
+
+        errors.add(:year, "can't be in the future")
     end
 
     def print_report
