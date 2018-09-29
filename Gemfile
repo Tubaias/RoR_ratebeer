@@ -12,6 +12,17 @@ gem 'coffee-rails', '~> 4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+group :test do
+  gem 'simplecov', require: false
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 2.15'
+  gem 'selenium-webdriver'
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem 'chromedriver-helper'
+  gem 'factory_bot_rails'
+  gem 'launchy'
+end
+
 group :development, :test do
   gem 'sqlite3'
 end

@@ -24,4 +24,16 @@ class User < ApplicationRecord
 
         errors.add(:password, "password must contain at least one number")
     end
+
+    def favorite_beer
+        return nil if ratings.empty?
+
+        ratings.order(score: :desc).limit(1).first.beer
+    end
+
+    def favorite_style
+        return nil if ratings.empty?
+
+        ratings.first.beer.style
+    end
 end
