@@ -23,5 +23,8 @@
   </p>
 <% end %>
 
-<%= link_to 'Edit', edit_beer_path(@beer) %> |
+<% if current_user %>
+  <%= link_to 'Edit', edit_beer_path(@beer) %> |
+  <td><%= link_to 'Destroy', @beer, method: :delete, data: { confirm: 'Are you sure?' } %></td> |
+<% end %>
 <%= link_to 'Back', beers_path %>

@@ -1,29 +1,21 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate, only: [:destroy]
+  before_action :ensure_that_signed_in, except: [:index, :show]
 
-  # GET /breweries
-  # GET /breweries.json
   def index
     @breweries = Brewery.all
   end
 
-  # GET /breweries/1
-  # GET /breweries/1.json
   def show
   end
 
-  # GET /breweries/new
   def new
     @brewery = Brewery.new
   end
 
-  # GET /breweries/1/edit
   def edit
   end
 
-  # POST /breweries
-  # POST /breweries.json
   def create
     @brewery = Brewery.new(brewery_params)
 
@@ -38,8 +30,6 @@ class BreweriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /breweries/1
-  # PATCH/PUT /breweries/1.json
   def update
     respond_to do |format|
       if @brewery.update(brewery_params)
@@ -52,8 +42,6 @@ class BreweriesController < ApplicationController
     end
   end
 
-  # DELETE /breweries/1
-  # DELETE /breweries/1.json
   def destroy
     @brewery.destroy
     respond_to do |format|
@@ -64,19 +52,10 @@ class BreweriesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_brewery
     @brewery = Brewery.find(params[:id])
   end
 
-  def authenticate
-    admin_accounts = { "pekka" => "beer", "arto" => "foobar", "matti" => "ittam", "vilma" => "kangas", "admin" => "secret" }
-    authenticate_or_request_with_http_basic do |username, password|
-      admin_accounts.key?(username) && admin_accounts[username] == password
-    end
-  end
-
-  # Never trust parameters from the scary internet, only allow the white list through.
   def brewery_params
     params.require(:brewery).permit(:name, :year)
   end
