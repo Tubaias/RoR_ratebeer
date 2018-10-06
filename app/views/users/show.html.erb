@@ -23,6 +23,10 @@
     Has made <%= pluralize(@user.ratings.count,"rating") %>, average rating <%= @user.average_rating %>
   </p>
 
+  <p>Favorite beer: <%= @user.favorite_beer.name %></p>
+  <p>Favorite brewery: <%= @user.favorite_brewery.name %></p>
+  <p>Preferred style: <%= @user.favorite_style %></p>
+
   <h3>User's ratings</h3>
 
   <ul>
