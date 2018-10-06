@@ -7,6 +7,10 @@ class BeerClubsController < ApplicationController
   end
 
   def show
+    @membership = Membership.new
+    @membership.beer_club = @beer_club
+
+    @currentmembership = Membership.find_by(user: current_user, beer_club: @beer_club) if current_user.beer_clubs.include? @beer_club
   end
 
   def new
