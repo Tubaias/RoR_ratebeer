@@ -49,14 +49,13 @@ class UsersController < ApplicationController
   def toggle_banned
     if current_user&.admin
       user = User.find(params[:id])
-      user.update_attribute :banned, (not user.banned)
-  
+      user.update_attribute :banned, !user.banned
+
       new_status = user.banned? ? "banned" : "unbanned"
-  
-      redirect_to user, notice:"User ban status changed to #{new_status}" 
-      return
+
+      redirect_to user, notice: "User ban status changed to #{new_status}"
     else
-      redirect_to user, notice:"You must be an admin to ban a user."
+      redirect_to user, notice: "You must be an admin to ban a user."
     end
   end
 
