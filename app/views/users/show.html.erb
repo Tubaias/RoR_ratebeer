@@ -1,7 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <h2>
   <%= @user.username %>
+  <% if @user.banned  %>
+    <span class="badge badge-info">account closed</span>
+  <% end %>
 </h2>
 
 <% if @user.beer_clubs.empty? %>
@@ -25,7 +26,7 @@
 
   <p>Favorite beer: <%= @user.favorite_beer.name %></p>
   <p>Favorite brewery: <%= @user.favorite_brewery.name %></p>
-  <p>Preferred style: <%= @user.favorite_style %></p>
+  <p>Preferred style: <%= @user.favorite_style.name %></p>
 
   <h3>User's ratings</h3>
 
@@ -41,8 +42,12 @@
   </ul>
 <% end %>
 
+<% if current_user&.admin %>
+  <%= link_to "change ban status", toggle_banned_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+<% end %>
+
 <%= link_to 'Back', users_path %>
 <% if @user == current_user %>
-  | <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to 'Edit', edit_user_path(@user) %> |
   <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

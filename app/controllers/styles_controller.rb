@@ -42,10 +42,14 @@ class StylesController < ApplicationController
   end
 
   def destroy
-    @style.destroy
-    respond_to do |format|
-      format.html { redirect_to styles_url, notice: 'Style was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user&.admin
+      @style.destroy
+      respond_to do |format|
+        format.html { redirect_to styles_url, notice: 'Style was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to @style, notice: "You must be an administrator to do this."
     end
   end
 

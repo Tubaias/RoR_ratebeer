@@ -3,7 +3,8 @@ class BreweriesController < ApplicationController
   before_action :ensure_that_signed_in, except: [:index, :show]
 
   def index
-    @breweries = Brewery.all
+    @active_breweries = Brewery.active
+    @retired_breweries = Brewery.retired
   end
 
   def show
@@ -42,11 +43,24 @@ class BreweriesController < ApplicationController
     end
   end
 
+  def toggle_activity
+    brewery = Brewery.find(params[:id])
+    brewery.update_attribute :active, (not brewery.active)
+  
+    new_status = brewery.active? ? "active" : "retired"
+  
+    redirect_to brewery, notice:"brewery activity status changed to #{new_status}"
+  end
+
   def destroy
-    @brewery.destroy
-    respond_to do |format|
-      format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user&.admin
+      @brewery.destroy
+      respond_to do |format|
+        format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to @style, notice: "You must be an administrator to do this."
     end
   end
 
@@ -57,6 +71,6 @@ class BreweriesController < ApplicationController
   end
 
   def brewery_params
-    params.require(:brewery).permit(:name, :year)
+    params.require(:brewery).permit(:name, :year, :active)
   end
 end

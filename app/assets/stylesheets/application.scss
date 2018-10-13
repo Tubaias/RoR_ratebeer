@@ -16,5 +16,12 @@
 
  .navibar {
     padding: 10px;
-    background: #EFEFEF;
+    background: rgb(255, 255, 255);
 }
+
+.navbar-custom {
+    color: #FFFFFF;
+    background-color: #d19017;
+}
+
+@import "bootstrap";

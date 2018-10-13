@@ -46,6 +46,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def toggle_banned
+    if current_user&.admin
+      user = User.find(params[:id])
+      user.update_attribute :banned, (not user.banned)
+  
+      new_status = user.banned? ? "banned" : "unbanned"
+  
+      redirect_to user, notice:"User ban status changed to #{new_status}" 
+      return
+    else
+      redirect_to user, notice:"You must be an admin to ban a user."
+    end
+  end
+
   def destroy
     if @user != current_user
       redirect_to user_path(@user)

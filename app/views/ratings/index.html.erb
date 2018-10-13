@@ -1,12 +1,54 @@
+<h2>Ratings</h2>
+
 <p>
     Total number of ratings: 
     <%= @ratings.count %>
 </p>
 
-<h2>List of ratings</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-2">
+      <h5>Top rated breweries</h5>
+      <%= render 'toplist', top: @topbreweries %>
+    </div>
+
+    <div class="col-xs-2">
+      <h5>Top rated beers</h5>
+      <%= render 'toplist', top: @topbeers %>
+    </div>
+
+    <div class="col-xs-2">
+      <h5>Top rated styles</h5>
+      <%= render 'toplist', top: @topstyles %>
+    </div>
+  </div>
+</div>
+
+<h3>Most active users</h3>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Ratings</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topusers.each do |u| %>
+      <tr>
+        <td> <%= u.username %>  </td>
+        <td> <%= u.ratings.count %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Recent ratings</h3>
 
 <ul>
-  <% @ratings.each do |rating| %>
+  <% @recent.each do |rating| %>
     <li> <%= rating %> <%= link_to "#{rating.user.username}", rating.user %> </li>
   <% end %>
 </ul>

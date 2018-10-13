@@ -10,6 +10,8 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2.2'
 gem 'httparty'
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
 
 group :test do
   gem 'simplecov', require: false

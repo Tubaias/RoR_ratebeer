@@ -47,10 +47,14 @@ class BeerClubsController < ApplicationController
   end
 
   def destroy
-    @beer_club.destroy
-    respond_to do |format|
-      format.html { redirect_to beer_clubs_url, notice: 'Beer club was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user&.admin
+      @beer_club.destroy
+      respond_to do |format|
+        format.html { redirect_to beer_clubs_url, notice: 'Beer club was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to @beer_club, notice: "You must be an administrator to do this."
     end
   end
 
