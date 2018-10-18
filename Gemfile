@@ -23,6 +23,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'launchy'
   gem 'webmock'
+  gem 'puma'
 end
 
 group :development, :test do
