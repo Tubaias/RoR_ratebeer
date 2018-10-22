@@ -8,17 +8,25 @@ class BeerClubsController < ApplicationController
     order = params[:order] || 'name'
 
     @beer_clubs = case order
-      when 'name' then @beer_clubs.sort_by{ |b| b.name.downcase }
-      when 'founded' then @beer_clubs.sort_by{ |b| b.founded }
-      when 'city' then @beer_clubs.sort_by{ |b| b.city }
-    end
+                  when 'name' then @beer_clubs.sort_by{ |b| b.name.downcase }
+                  when 'founded' then @beer_clubs.sort_by(&:founded)
+                  when 'city' then @beer_clubs.sort_by(&:city)
+                  end
   end
 
   def show
-    @membership = Membership.new
-    @membership.beer_club = @beer_club
+    if !current_user&.beer_clubs&.include? @beer_club
+      @membership = Membership.new
+      @membership.beer_club = @beer_club
+      @membership.user = current_user
+    else
+      @membership = Membership.find_by(user_id: current_user.id, beer_club_id: @beer_club.id)
+    end
 
-    @currentmembership = Membership.find_by(user: current_user, beer_club: @beer_club) if current_user.beer_clubs.include? @beer_club
+    @comfirmed_memberships = @beer_club.memberships.select { |m| m.confirmed == true }
+    @applications = @beer_club.memberships.select { |m| m.confirmed == false }
+
+    @currentmembership = Membership.find_by(user: current_user, beer_club: @beer_club) if current_user&.beer_clubs&.include? @beer_club
   end
 
   def new
@@ -30,6 +38,11 @@ class BeerClubsController < ApplicationController
 
   def create
     @beer_club = BeerClub.new(beer_club_params)
+    @membership = Membership.new
+    @membership.beer_club = @beer_club
+    @membership.user_id = current_user.id
+    @membership.confirmed = true
+    @membership.save
 
     respond_to do |format|
       if @beer_club.save

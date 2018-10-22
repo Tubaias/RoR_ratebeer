@@ -18,6 +18,7 @@ class MembershipsController < ApplicationController
 
   def create
     @membership = Membership.new params.require(:membership).permit(:beer_club_id)
+    @membership.confirmed = false
     @membership.user = current_user
 
     if @membership.save
@@ -40,6 +41,18 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def toggle_confirmed
+    membership = Membership.find(params[:id])
+
+    return if !current_user.beer_clubs.include? membership.beer_club
+
+    membership.update_attribute :confirmed, !membership.confirmed
+
+    new_status = membership.confirmed? ? "confirmed" : "unconfirmed"
+
+    redirect_to membership.beer_club, notice: "membership confirmation status changed to #{new_status}"
+  end
+
   def destroy
     @membership.destroy
     respond_to do |format|
@@ -55,6 +68,6 @@ class MembershipsController < ApplicationController
   end
 
   def membership_params
-    params.require(:membership).permit(:beer_club_id, :user_id)
+    params.require(:membership).permit(:beer_club_id, :user_id, :confirmed)
   end
 end

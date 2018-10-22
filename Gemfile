@@ -54,7 +54,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'rubocop'
-
+gem 'rack-mini-profiler'
 gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do

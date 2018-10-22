@@ -14,8 +14,21 @@
 <h3>Members:</h3>
 
 <ul>
- <% @beer_club.members.each do |member| %>
-   <li> <%= link_to "#{member.username}", member %> </li>
+ <% @comfirmed_memberships.each do |mship| %>
+    <li> <%= link_to "#{mship.user.username}", mship.user %> </li>
+ <% end %>
+</ul>
+
+<h3>Applications</h3>
+
+<ul>
+ <% @applications.each do |application| %>
+    <li>
+      <%= link_to "#{application.user.username}", application.user %>
+      <% if @membership.confirmed %>
+        <%= link_to "confirm application", toggle_confirmed_membership_path(application.id), method: :post, class: "btn btn-primary" %>
+      <% end %>
+    </li>
  <% end %>
 </ul>
 
